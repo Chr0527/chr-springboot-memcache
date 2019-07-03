@@ -119,18 +119,50 @@ public class MemcacheController {
     //cas
     @GetMapping("/show6")
     public Object show6() {
+        memCachedClient.set("sbf", "249");
 //        通过gets方法获取CAS token(令牌)
-        MemcachedItem seeMI = memCachedClient.gets("see");
-        boolean see = memCachedClient.cas("see", "bingo2019", new Date(20 * 1000), seeMI.getCasUnique());
+        MemcachedItem seeMI = memCachedClient.gets("sbf");
+        System.out.println(seeMI);
+        memCachedClient.cas("sbf", "24", new Date(10 * 1000), seeMI.getCasUnique());
 
-        return memCachedClient.get("mes");
+        return memCachedClient.get("sbf");
     }
 
-    //incr
+    //incr-decr
     @GetMapping("/show7")
-    public Object show7() {
+    public void show7() {
+        boolean set = memCachedClient.set("kb", "24");
+        if (set) {
+            long kb = memCachedClient.decr("kb", 16);
+            System.out.println(kb);
+            long kb1 = memCachedClient.incr("kb", 16);
+            System.out.println(kb1);
+        }
+    }
 
-//        memCachedClient.incr()
-        return memCachedClient.get("mes");
+    //prepend
+    @GetMapping("/show8")
+    public Object show8() {
+        boolean set = memCachedClient.set("str", "my name");
+        if (set) {
+            boolean str = memCachedClient.prepend("str", "see ");
+            if (str) {
+                return memCachedClient.get("str");
+            }
+        }
+        return null;
+    }
+
+    //replace
+    @GetMapping("/show9")
+    public Object show9() {
+        boolean set = memCachedClient.set("sst", "nameN");
+        if (set) {
+            boolean replace = memCachedClient.replace("sst", "mess");
+            if (replace) {
+                return memCachedClient.get("sst");
+            }
+        }
+        return null;
     }
 }
