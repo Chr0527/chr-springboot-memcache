@@ -45,6 +45,7 @@ public class MemcacheController {
         return "success";
     }
 
+    //set
     @GetMapping("/show1")
     public Object show1() {
         boolean set = memCachedClient.set("name", "chryl");
@@ -54,6 +55,7 @@ public class MemcacheController {
         return null;
     }
 
+    //get
     @GetMapping("/show2")
     public Object show2() {
         boolean set = memCachedClient.set("name", "chryl22", new Date(20 * 1000));
@@ -80,6 +82,7 @@ public class MemcacheController {
      *
      * @return
      */
+    //add
     @GetMapping("/show3")
     public Object show3() {
         //该key有value就add失败-返回false,没有就add成功-返回true
@@ -91,6 +94,7 @@ public class MemcacheController {
         return null;
     }
 
+    //append
     //在原来的 key的value之后追加
     @GetMapping("/show4")
     public Object show4() {
@@ -112,12 +116,21 @@ public class MemcacheController {
         return null;
     }
 
+    //cas
     @GetMapping("/show6")
     public Object show6() {
 //        通过gets方法获取CAS token(令牌)
         MemcachedItem seeMI = memCachedClient.gets("see");
         boolean see = memCachedClient.cas("see", "bingo2019", new Date(20 * 1000), seeMI.getCasUnique());
 
+        return memCachedClient.get("mes");
+    }
+
+    //incr
+    @GetMapping("/show7")
+    public Object show7() {
+
+//        memCachedClient.incr()
         return memCachedClient.get("mes");
     }
 }
