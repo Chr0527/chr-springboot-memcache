@@ -123,6 +123,7 @@ public class MemcacheController {
 //        通过gets方法获取CAS token(令牌)
         MemcachedItem seeMI = memCachedClient.gets("sbf");
         System.out.println(seeMI);
+        //cas操作
         memCachedClient.cas("sbf", "24", new Date(10 * 1000), seeMI.getCasUnique());
 
         return memCachedClient.get("sbf");
@@ -164,5 +165,11 @@ public class MemcacheController {
             }
         }
         return null;
+    }
+
+    //delete
+    @GetMapping("/show10")
+    public void show10() {
+        memCachedClient.delete("str");
     }
 }
