@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 总结：memcache通过set方法把值存入都memcache缓存中；通过get方法把值取出来；通过设置过期时间，使其失效。
@@ -171,6 +172,54 @@ public class MemcacheController {
     @GetMapping("/show10")
     public void show10() {
         memCachedClient.delete("str");
+    }
+
+    //清空所有
+    @GetMapping("/show11")
+    public void show11() {
+        memCachedClient.flushAll();
+    }
+
+    //add decr/incr
+    @GetMapping("/show12")
+    public void show12() {
+        long kb = memCachedClient.addOrDecr("kb", 3);
+        System.out.println(kb);
+        long kb1 = memCachedClient.addOrIncr("kb", 6);
+        System.out.println(kb1);
+    }
+
+    //getMulti . ...
+    @GetMapping("/show13")
+    public void show13() {
+        //未知
+        long kb = memCachedClient.getCounter("name");
+        System.out.println(kb);
+        //获取多个 key value
+        Map<String, Object> multi = memCachedClient.getMulti(new String[]{"kb", "name"});
+        System.out.println(multi);
+    }
+
+    //getMultiArray
+    @GetMapping("/show14")
+    public void show14() {
+        //只获取 value
+        Object[] multiArray = memCachedClient.getMultiArray(new String[]{"kb", "name"});
+        System.out.println(multiArray);
+    }
+
+    //keyExists
+    @GetMapping("/show15")
+    public void show15() {
+        //是否存在key
+        boolean b = memCachedClient.keyExists("see");
+        boolean b2 = memCachedClient.keyExists("see12");
+        System.out.println(b);
+        System.out.println(b2);
+        //未知
+        boolean useBinaryProtocol = memCachedClient.isUseBinaryProtocol();
+        System.out.println(useBinaryProtocol);
+
     }
 
 }

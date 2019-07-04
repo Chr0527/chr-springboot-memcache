@@ -3,17 +3,48 @@ package com.chryl.controller.test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
+ * 其他
+ * <p>
  * Created By Chr on 2019/7/3.
  */
 public class Test {
+    /**
+     * 不含有继承时，各种方法（静态块，静态方法，非静态代码块，构造方法，普通方法）的执行顺序
+     */
+    public static void test() {
+        System.out.println("静态方法");
+    }
+
+    static {
+        System.out.println("静态代码块");
+    }
+
+    public Test() {
+        System.out.println("构造函数");
+    }
+
+    {
+        System.out.println("非静态代码块");
+    }
+
+    public void method1() {
+        System.out.println("普通方法");
+    }
+
 
     public static void main(String[] args) throws IOException {
 
+        Test.test();
+
+        new Test().method1();
+
 
     }
+
 
     public static void showEngNum() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -56,4 +87,33 @@ public class Test {
         int mid = a < c ? (a > b ? a : (c > b ? b : c)) : (a < b ? a : (b < c ? c : b));//中间值
         System.out.println(max + ">" + mid + ">" + min);
     }
+
+    //单例
+//    private Test() {
+//    }
+//
+//    private static Test test = null;
+//
+//    public static Test getTest() {
+//        if (test == null) {
+//            synchronized (Test.class) {
+//                if (test == null) {
+//                    test = new Test();
+//                }
+//            }
+//        }
+//        return test;
+//    }
+
+
+    //单例
+//    private Sun(){}
+//    private static Sun only;
+//    public static synchronized Sun getOnly(){
+//        if(only == null){
+//            only = new Sun();
+//        }
+//        return only;
+//    }
+
 }
