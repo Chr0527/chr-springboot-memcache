@@ -219,7 +219,23 @@ public class MemcacheController {
         //未知
         boolean useBinaryProtocol = memCachedClient.isUseBinaryProtocol();
         System.out.println(useBinaryProtocol);
-
     }
 
+    //查看memcache的配置信息
+    @GetMapping("/show16")
+    public void show16() {
+        Map<String, Map<String, String>> stats = memCachedClient.stats();
+        System.out.println(stats);
+    }
+
+    //未知
+    @GetMapping("/show17")
+    public void show17() {
+        //{}
+        Map<String, Map<String, String>> statsItems = memCachedClient.statsItems();
+        //slabs信息
+        Map<String, Map<String, String>> statsSlabs = memCachedClient.statsSlabs();
+        System.out.println(statsItems);
+        System.out.println(statsSlabs);
+    }
 }
